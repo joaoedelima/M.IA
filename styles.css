@@ -1,0 +1,35 @@
+:root {
+  --bg: #0f172a;
+  --panel: #111827;
+  --line: #2c3a4f;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --primary: #14b8a6;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Inter, system-ui, sans-serif; background: var(--bg); color: var(--text); }
+.topbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid var(--line); gap: 1rem; }
+.topbar h1 { margin: 0; font-size: 1.2rem; }
+.topbar p { margin: 0.25rem 0 0; color: var(--muted); }
+.actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+button, select, input { background: #1f2937; border: 1px solid var(--line); color: var(--text); border-radius: 8px; padding: 0.45rem 0.65rem; }
+button { cursor: pointer; }
+button:hover, .tab.active { border-color: var(--primary); }
+.layout { display: grid; grid-template-columns: 300px 1fr 1fr 1fr; gap: 1rem; padding: 1rem; min-height: calc(100vh - 86px); }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 0.8rem; display: flex; flex-direction: column; gap: .5rem; }
+.panel h2 { margin: 0.2rem 0; font-size: 1rem; }
+.hint { color: var(--muted); font-size: .85rem; margin: 0 0 .4rem; }
+.block-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; }
+.block-grid button { text-align: left; font-size: .8rem; }
+.visual-toolbar { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.3rem; }
+.visual-editor { flex: 1; min-height: 60vh; border: 1px dashed var(--line); border-radius: 8px; padding: 1rem; background: white; color: #0f172a; overflow: auto; }
+.tabs { display: flex; gap: 0.5rem; margin-bottom: 0.4rem; }
+.code { width: 100%; height: 22vh; resize: vertical; background: #0b1220; border: 1px solid var(--line); color: #d1d5db; border-radius: 8px; font-family: ui-monospace, monospace; padding: 0.6rem; }
+.hidden { display: none; }
+.code-actions, .preview-actions { margin-top: 0.3rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.preview-panel iframe { width: 100%; height: 100%; min-height: 65vh; border: 1px solid var(--line); border-radius: 8px; background: white; transition: width .2s ease; }
+.preview-panel iframe.mobile { width: 390px; align-self: center; }
+.preview-panel iframe.tablet { width: 768px; align-self: center; }
+@media (max-width: 1500px) { .layout { grid-template-columns: 1fr; } .preview-panel iframe.mobile, .preview-panel iframe.tablet { width: 100%; } }
+
+.analysis-output { background:#0b1220; border:1px solid var(--line); border-radius:8px; padding:.7rem; min-height:180px; white-space:pre-wrap; color:#cbd5e1; font-size:.85rem; }

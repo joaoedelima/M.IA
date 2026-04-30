@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>M.IA Studio — Plataforma Completa de Conteúdo HTML</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>M.IA Studio</h1>
+      <p>Criação visual + código para Web, Email, PDF e PPT.</p>
+    </div>
+    <div class="actions">
+      <button id="btnNew">Novo</button>
+      <button id="btnImportHtml">Importar HTML</button>
+      <input id="importHtmlFile" type="file" accept=".html,.htm,text/html" hidden />
+      <button id="btnExportHtml">Exportar HTML</button>
+      <button id="btnExportEmail">Exportar Email</button>
+      <button id="btnExportPdf">Exportar PDF</button>
+      <button id="btnExportPpt">Exportar PPT Outline</button>
+      <button id="btnExportProject">Exportar Projeto</button>
+      <button id="btnImportProject">Importar Projeto</button>
+      <input id="importProjectFile" type="file" accept="application/json,.json" hidden />
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="panel side-panel">
+      <h2>Biblioteca</h2>
+      <p class="hint">Clique para inserir blocos prontos.</p>
+      <div class="block-grid" id="blockGrid"></div>
+
+      <h2>Templates</h2>
+      <select id="templatePicker"></select>
+      <button id="btnApplyTemplate">Aplicar Template</button>
+
+      <h2>Projeto</h2>
+      <label for="projectName">Nome</label>
+      <input id="projectName" type="text" placeholder="Ex.: Landing Campanha Maio" />
+      <label for="projectTags">Tags</label>
+      <input id="projectTags" type="text" placeholder="email, vendas, webinar" />
+      <p id="autosaveStatus" class="hint">Auto-save ativo.</p>
+    </aside>
+
+    <section class="panel">
+      <h2>Editor Visual</h2>
+      <div class="visual-toolbar">
+        <button data-cmd="bold"><b>B</b></button>
+        <button data-cmd="italic"><i>I</i></button>
+        <button data-cmd="underline"><u>U</u></button>
+        <button data-cmd="insertUnorderedList">• Lista</button>
+        <button data-cmd="insertOrderedList">1. Lista</button>
+        <button id="btnAddImage">Imagem</button>
+        <button id="btnAddLink">Link</button>
+        <button id="btnInsertTable">Tabela</button>
+      </div>
+      <article id="visualEditor" class="visual-editor" contenteditable="true"></article>
+    </section>
+
+    <section class="panel">
+      <h2>Código</h2>
+      <div class="tabs">
+        <button class="tab active" data-target="htmlCode">HTML</button>
+        <button class="tab" data-target="cssCode">CSS</button>
+        <button class="tab" data-target="jsCode">JS</button>
+      </div>
+      <textarea id="htmlCode" class="code"></textarea>
+      <textarea id="cssCode" class="code hidden"></textarea>
+      <textarea id="jsCode" class="code hidden"></textarea>
+      <div class="code-actions">
+        <button id="btnApplyCode">Aplicar Código</button>
+        <button id="btnSyncFromVisual">Sincronizar do Visual</button>
+        <button id="btnFormatHtml">Formatar HTML</button>
+      </div>
+    </section>
+
+
+    <section class="panel">
+      <h2>Otimização e Qualidade</h2>
+      <div class="code-actions">
+        <button id="btnAnalyzeSeo">Analisar SEO</button>
+        <button id="btnAnalyzeA11y">Analisar Acessibilidade</button>
+        <button id="btnAnalyzeEmail">Analisar Email</button>
+      </div>
+      <pre id="analysisOutput" class="analysis-output">Execute uma análise para ver recomendações.</pre>
+      <div class="code-actions">
+        <button id="btnUndo">Undo</button>
+        <button id="btnRedo">Redo</button>
+      </div>
+    </section>
+
+    <section class="panel preview-panel">
+      <h2>Preview</h2>
+      <div class="preview-actions">
+        <button data-device="desktop" class="active">Desktop</button>
+        <button data-device="tablet">Tablet</button>
+        <button data-device="mobile">Mobile</button>
+      </div>
+      <iframe id="previewFrame" title="Preview"></iframe>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
