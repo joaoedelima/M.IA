@@ -1,0 +1,13 @@
+{
+  "name": "mia-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "M.IA Studio online-ready",
+  "scripts": {
+    "dev": "python3 -m http.server 5173",
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
