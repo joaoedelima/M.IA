@@ -31,3 +31,5 @@ button:hover, .tab.active { border-color: var(--primary); }
 .preview-panel iframe.mobile { width: 390px; align-self: center; }
 .preview-panel iframe.tablet { width: 768px; align-self: center; }
 @media (max-width: 1500px) { .layout { grid-template-columns: 1fr; } .preview-panel iframe.mobile, .preview-panel iframe.tablet { width: 100%; } }
+
+.analysis-output { background:#0b1220; border:1px solid var(--line); border-radius:8px; padding:.7rem; min-height:180px; white-space:pre-wrap; color:#cbd5e1; font-size:.85rem; }

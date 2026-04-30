@@ -212,3 +212,78 @@ document.querySelectorAll('.preview-actions button').forEach(btn => btn.addEvent
 
 restoreProject();
 refreshPreview();
+
+
+// Quality analyzers + undo/redo stack
+const historyStack = [];
+let historyIndex = -1;
+const analysisOutput = document.getElementById('analysisOutput');
+
+function pushHistory() {
+  const state = JSON.stringify({ html: el.htmlCode.value, css: el.cssCode.value, js: el.jsCode.value });
+  if (historyStack[historyIndex] === state) return;
+  historyStack.splice(historyIndex + 1);
+  historyStack.push(state);
+  historyIndex = historyStack.length - 1;
+}
+
+function applyHistory(state) {
+  const data = JSON.parse(state);
+  el.htmlCode.value = data.html;
+  el.cssCode.value = data.css;
+  el.jsCode.value = data.js;
+  el.visualEditor.innerHTML = data.html;
+  refreshPreview();
+  persistProject();
+}
+
+function analyzeSeo() {
+  const html = el.htmlCode.value;
+  const checks = [];
+  checks.push(/<h1[\s>]/i.test(html) ? '✅ Possui H1' : '⚠️ Falta H1 principal');
+  checks.push(/<meta[^>]+name=["']description["']/i.test(buildDocument()) ? '✅ Meta description detectada' : '⚠️ Falta meta description');
+  checks.push(/<img/i.test(html) ? ((html.match(/<img[^>]+alt=/gi)||[]).length > 0 ? '✅ Imagens com ALT detectadas' : '⚠️ Existem imagens sem ALT') : 'ℹ️ Nenhuma imagem detectada');
+  checks.push(html.length > 300 ? '✅ Conteúdo com tamanho razoável' : '⚠️ Conteúdo muito curto para SEO');
+  analysisOutput.textContent = `Relatório SEO\n\n${checks.join('\n')}`;
+}
+
+function analyzeA11y() {
+  const html = el.htmlCode.value;
+  const checks = [];
+  checks.push(/<button/i.test(html) || /<a/i.test(html) ? '✅ Elementos interativos presentes' : '⚠️ Falta elementos interativos');
+  checks.push(/aria-/i.test(html) ? '✅ Atributos ARIA encontrados' : '⚠️ Considere incluir atributos ARIA');
+  checks.push((html.match(/<img[^>]+alt=/gi) || []).length > 0 ? '✅ Imagens com ALT' : '⚠️ Falta ALT em imagens');
+  checks.push(/<table/i.test(html) ? '⚠️ Verifique semântica de tabelas para leitores de tela' : '✅ Sem tabelas complexas');
+  analysisOutput.textContent = `Relatório Acessibilidade\n\n${checks.join('\n')}`;
+}
+
+function analyzeEmail() {
+  const css = el.cssCode.value;
+  const checks = [];
+  checks.push(/position\s*:\s*fixed/i.test(css) ? '⚠️ position:fixed tem baixa compatibilidade em email' : '✅ Sem uso de position:fixed');
+  checks.push(/display\s*:\s*grid/i.test(css) ? '⚠️ CSS Grid pode falhar em Outlook' : '✅ Sem CSS Grid crítico');
+  checks.push(/@media/i.test(css) ? '✅ Media queries detectadas' : 'ℹ️ Sem media queries (email responsivo pode ficar limitado)');
+  checks.push(/<table/i.test(el.htmlCode.value) ? '✅ Estrutura com tabelas presente (bom para email)' : '⚠️ Considere estrutura por tabelas para email');
+  analysisOutput.textContent = `Relatório Compatibilidade Email\n\n${checks.join('\n')}`;
+}
+
+document.getElementById('btnAnalyzeSeo').addEventListener('click', analyzeSeo);
+document.getElementById('btnAnalyzeA11y').addEventListener('click', analyzeA11y);
+document.getElementById('btnAnalyzeEmail').addEventListener('click', analyzeEmail);
+
+document.getElementById('btnUndo').addEventListener('click', () => {
+  if (historyIndex <= 0) return;
+  historyIndex -= 1;
+  applyHistory(historyStack[historyIndex]);
+});
+
+document.getElementById('btnRedo').addEventListener('click', () => {
+  if (historyIndex >= historyStack.length - 1) return;
+  historyIndex += 1;
+  applyHistory(historyStack[historyIndex]);
+});
+
+['input', 'keyup'].forEach(evt => el.visualEditor.addEventListener(evt, pushHistory));
+[el.htmlCode, el.cssCode, el.jsCode].forEach(node => node.addEventListener('input', pushHistory));
+pushHistory();
+

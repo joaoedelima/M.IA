@@ -12,6 +12,8 @@ Plataforma web completa para edição visual e por código de conteúdo HTML5/CS
 - Metadados de projeto (nome e tags).
 - Importação HTML, importação/exportação de projeto JSON.
 - Exportação para HTML, Email HTML (com inline CSS básico), PDF (print) e PPT outline (.txt).
+- Módulos de otimização: análise SEO, acessibilidade e compatibilidade de email.
+- Histórico com undo/redo para edição mais segura.
 
 ---
 
